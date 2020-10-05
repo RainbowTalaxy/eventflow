@@ -4,7 +4,9 @@ var session = require('express-session')
 
 var app = express()
 
-// app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ 
+    extended: false 
+}))
 
 app.use(session({
     secret: '3013',
