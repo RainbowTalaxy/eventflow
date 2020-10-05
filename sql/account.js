@@ -1,15 +1,17 @@
-const { select, insert, remove } = require('./config')
+const { select, selectBy, insert, remove } = require('./config')
 
 const tableName = 'account'
 
 const findAll = select(tableName)
+
+const findByName = selectBy(tableName, 'u_name')
 
 const add = insert(tableName)
 
 const removeByName = remove(tableName, 'u_name')
 
 module.exports = {
-    findAll, add, removeByName
+    findAll, add, removeByName, findByName
 }
 
 // var demo = {
