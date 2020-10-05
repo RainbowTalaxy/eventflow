@@ -1,4 +1,4 @@
-const { select, insert, removeWithTwoKeys } = require('./config')
+const { select, insert, removeWithTwoKeys, remove } = require('./config')
 
 const tableName = 'member'
 
@@ -8,8 +8,10 @@ const add = insert(tableName)
 
 const removeByKeys = removeWithTwoKeys(tableName, 'u_name', 't_id')
 
+const removeByTeam = remove(tableName, 't_id')
+
 module.exports = {
-    findAll, add, removeByKeys
+    findAll, add, removeByKeys, removeByTeam
 }
 
 // add({

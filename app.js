@@ -21,6 +21,10 @@ app.get('/hello', (req, res) => {
 
 app.use(require('./router/user'))
 
+app.use(require('./router/team'))
+
+app.use(require('./router/invite'))
+
 app.listen(3000, () => {
     console.log('listening on port 3000...')
 })

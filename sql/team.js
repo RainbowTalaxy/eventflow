@@ -23,4 +23,6 @@ module.exports = {
 
 // change(demo, 2)
 
-findAll()
+// findAll()
+
+// removeById(3)

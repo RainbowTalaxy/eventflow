@@ -54,13 +54,13 @@ const findTeamsFlow = (t_id, u_name, callback = console.log) => {
 }
 
 module.exports = {
-    findUsersTeams, findUsersInvitation, findTeamsMembers
+    findUsersTeams, findUsersInvitation, findTeamsMembers, findTeamsFlow
 }
 
 // findOnesTeams('舍暴')
 
 // findOnesInvitation('路人')
 
-// findTeamsMembers(1)
+findTeamsMembers(1)
 
-findTeamsFlow(1, '宿霸')
+// findTeamsFlow(1, '宿霸')
