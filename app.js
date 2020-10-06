@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var session = require('express-session')
 
 var app = express()
+var port = 8112
 
 app.use(bodyParser.urlencoded({ 
     extended: false 
@@ -27,6 +28,6 @@ app.use(require('./router/invite'))
 
 app.use(require('./router/event'))
 
-app.listen(3000, () => {
-    console.log('listening on port 3000...')
+app.listen(port, () => {
+    console.log('listening on port ' + port + '...')
 })
