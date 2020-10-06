@@ -43,7 +43,7 @@ const findTeamsMembers = (t_id, callback = console.log) => {
 const findTeamsFlow = (t_id, u_name, callback = console.log) => {
     query(connection => {
         connection.query(
-            'select f_id, completed, current, inqueue, ? = current as self, ? = founder as isFounder, f_state = 2 as submitted ' + 
+            'select f_id, completed, current, inqueue, f_type, f_state, ? = current as self, ? = founder as isFounder ' + 
             'from team, flow where team.t_id = flow.t_id and team.t_id = ?',
             [u_name, u_name, t_id],
             (error, results) => {
@@ -59,8 +59,8 @@ module.exports = {
 
 // findOnesTeams('舍暴')
 
-// findOnesInvitation('路人')
+// findUsersInvitation('顾思远')
 
-findTeamsMembers(1)
+// findTeamsMembers(1)
 
 // findTeamsFlow(1, '宿霸')

@@ -1,8 +1,12 @@
-const { select, insert, update, remove } = require('./config')
+const { select, selectBy, insert, update, remove } = require('./config')
 
 const tableName = 'flow'
 
 const findAll = select(tableName)
+
+const findById = selectBy(tableName, 'f_id')
+
+const findByTeam = selectBy(tableName, 't_id')
 
 const add = insert(tableName)
 
@@ -13,7 +17,7 @@ const removeById = remove(tableName, 'f_id')
 const removeByTeam = remove(tableName, 't_id')
 
 module.exports = {
-    findAll, add, change, removeById, removeByTeam
+    findAll, findByTeam, add, change, removeById, removeByTeam, findById
 }
 
 // var demo = {
@@ -31,8 +35,10 @@ module.exports = {
 //     'inqueue': ['11'].toString()
 // }, 1)
 
-// removeById(1)
+// removeById(9)
 
 // change(demo, 2)
 
 // findAll()
+
+// findByTeam(1)

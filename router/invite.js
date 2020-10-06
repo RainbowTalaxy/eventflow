@@ -1,79 +1,87 @@
 var router = new require('express').Router()
 const invitation_db = require('../sql/invitation')
+const team_db = require('../sql/team')
 const account_db = require('../sql/account')
 const member_db = require('../sql/member')
 const other_db = require('../sql/others')
+const code = require('./code')
 
 router.get('/invite/list', (req, res) => {
-    let message = {
-        success: false
-    }
     if (req.session.u_name && req.session.u_pwd) {
         other_db.findUsersInvitation(req.session.u_name, (error, result) => {
             if (error) {
-                message.info = 'database error'
+                res.send(code[200])
             } else {
-                message.success = true
-                message.list = result
+                res.send({
+                    status: code[100],
+                    list: result
+                })
             }
-            res.send(message)
         })
     } else {
-        message.info = 'please sign in before logout'
-        res.send(message)
+        res.send(code[304])
     }
 })
 
 router.post('/invite/invite', (req, res) => {
-    let message = {
-        success: false
-    }
     let params = (req.query.t_id && req.query.u_name) ? req.query : req.body
     if (req.session.u_name && req.session.u_pwd) {
-        account_db.findByName(u_name, (error, result) => {
-            if (result.length == 0) {
-                message.info = 'account does not exist'
-                res.send(message)
+        team_db.findById(params.t_id, (error, result) => {
+            if (error) {
+                res.send(code[200])
             } else {
-                other_db.findTeamsMembers(params.t_id, (error, result) => {
-                    if (result.some(i => i.u_name == params.u_name)) {
-                        message.info = 'already a member of the team'
-                        res.send(message)
-                    } else {
-                        invitation_db.add({ t_id: params.t_id, u_name: params.u_name }, () => {
-                            message.success = true
-                            res.send(message)
-                        })
-                    }
-                })
+                if (result.length == 0) {
+                    res.send(code[309])
+                } else if (result[0].founder != req.session.u_name) {
+                    res.send(code[312])
+                } else {
+                    account_db.findByName(params.u_name, (error, result) => {
+                        if (result.length == 0) {
+                            res.send(code[300])
+                        } else {
+                            other_db.findTeamsMembers(params.t_id, (error, result) => {
+                                if (result.some(i => i.u_name == params.u_name)) {
+                                    res.send(code[306])
+                                } else {
+                                    invitation_db.add({ t_id: params.t_id, u_name: params.u_name }, () => {
+                                        res.send(code[100])
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
             }
         })
     } else {
-        message.info = 'please sign in before logout'
-        res.send(message)
+        res.send(code[304])
     }
 })
 
 router.post('/invite/accept', (req, res) => {
-    let message = {
-        success: false
-    }
-    let params = (req.query.t_id && req.query.u_name) ? req.query : req.body
+    let params = (req.query.t_id) ? req.query : req.body
     if (req.session.u_name && req.session.u_pwd) {
-        invitation_db.removeByKeys(params.t_id, params.u_name, (error, result) => {
+        team_db.findById(params.t_id, (error, result) => {
             if (error) {
-                message.info = (params.t_id && params.u_name) ? 'invitation does not exist or other database error' : 'lack of parmas'
-                res.send(message)
+                res.send(code[200])
             } else {
-                member_db.add({ t_id: params.t_id, u_name: params.u_name }, () => {
-                    message.success = true
-                    res.send(message)
-                })
+                if (result.length == 0) {
+                    res.send(code[309])
+                } else {
+                    invitation_db.removeByKeys(params.t_id, req.session.u_name, (error, result) => {
+                        if (error) {
+                            res.send(code[(params.t_id && req.session.u_name) ? 307 : 202])
+                        } else {
+                            member_db.add({ t_id: params.t_id, u_name: req.session.u_name }, () => {
+                                res.send(code[100])
+                            })
+                        }
+                    })
+                }
             }
         })
     } else {
-        message.info = 'please sign in before logout'
-        res.send(message)
+        res.send(code[304])
     }
 })
 

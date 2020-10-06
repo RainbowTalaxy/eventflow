@@ -25,6 +25,8 @@ app.use(require('./router/team'))
 
 app.use(require('./router/invite'))
 
+app.use(require('./router/event'))
+
 app.listen(3000, () => {
     console.log('listening on port 3000...')
 })
