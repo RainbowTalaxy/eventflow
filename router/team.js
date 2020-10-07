@@ -31,7 +31,7 @@ router.get('/team/list', (req, res) => {
                 res.send(code[200])
             } else {
                 res.send({
-                    status: code[100],
+                    status: code[100].status,
                     list: result
                 })
             }
@@ -201,7 +201,7 @@ router.get('/team/member/list', (req, res) => {
                 res.send(code[params.t_id ? 200 : 202])
             } else {
                 res.send({
-                    status: code[100],
+                    status: code[100].status,
                     list: result
                 })
             }

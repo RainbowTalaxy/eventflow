@@ -21,7 +21,7 @@ router.get('/event/list', (req, res) => {
                         res.send(code[params.t_id ? 200 : 202])
                     } else {
                         res.send({
-                            status: code[100],
+                            status: code[100].status,
                             list: result
                         })
                     }
