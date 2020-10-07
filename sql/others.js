@@ -43,7 +43,7 @@ const findTeamsMembers = (t_id, callback = console.log) => {
 const findTeamsFlow = (t_id, u_name, callback = console.log) => {
     query(connection => {
         connection.query(
-            'select f_id, completed, current, inqueue, f_type, f_state, ? = current as self, ? = founder as isFounder ' + 
+            'select f_id, f_name, completed, current, inqueue, f_type, f_state, ? = current as self, ? = founder as isFounder ' + 
             'from team, flow where team.t_id = flow.t_id and team.t_id = ?',
             [u_name, u_name, t_id],
             (error, results) => {

@@ -26,6 +26,7 @@ create table member (
 
 create table flow (
     f_id bigint(10) primary key auto_increment,
+    f_name nchar(20) not null,
     t_id bigint(10) references team(t_id),
     completed text not null,
     current nchar(20) references user(u_name),

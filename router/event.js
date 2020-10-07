@@ -34,12 +34,12 @@ router.get('/event/list', (req, res) => {
 })
 
 router.post('/event/add', (req, res) => {
-    let params = (req.query.t_id && req.query.f_type) ? req.query : req.body
+    let params = (req.query.t_id && req.query.f_name && req.query.f_type) ? req.query : req.body
     if (req.session.u_name && req.session.u_pwd) {
         team_db.findById(params.t_id, (error, result) => {
             if (error) {
                 res.send(code[params.t_id ? 200 : 202])
-            } else if (params.f_type) {
+            } else if (params.f_type && params.f_name) {
                 if (result.length == 0) {
                     res.send(code[309])
                 } else if (result[0].founder != req.session.u_name) {
@@ -50,6 +50,7 @@ router.post('/event/add', (req, res) => {
                         let { completed, current, inqueue } = tool.flowNext([], null, members, params.f_type)
                         let flow = {
                             t_id: params.t_id,
+                            f_name: params.f_name,
                             completed: completed.toString(),
                             current: current,
                             inqueue: inqueue.toString(),

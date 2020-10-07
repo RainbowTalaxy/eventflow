@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 app.use(session({
     secret: '3013',
     cookie: {
-        maxAge: 60000
+        maxAge: 120000
     }
 }))
 
