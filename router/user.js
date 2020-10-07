@@ -53,7 +53,7 @@ router.post('/user/login', (req, res) => {
     let params = (req.query.u_name && req.query.u_pwd) ? req.query : req.body
     account_db.add({ u_name: params.u_name, u_pwd: params.u_pwd }, (error) => {
         if (error) {
-            res.send(params.u_name ? 302 : 202)
+            res.send(code[params.u_name ? 302 : 202])
         } else {
             res.send(code[100])
         }
