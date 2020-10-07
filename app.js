@@ -5,6 +5,15 @@ var session = require('express-session')
 var app = express()
 var port = 8112
 
+app.all("*", function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", req.get('origin'))
+    res.header("Access-Control-Max-Age", "80000")
+    res.header("Access-Control-Allow-Credentials", true)
+    res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+    res.header("Access-Control-Allow-Methods", "DELETE,PUT,POST,GET,OPTIONS")
+    next()
+})
+
 app.use(bodyParser.urlencoded({ 
     extended: false 
 }))
