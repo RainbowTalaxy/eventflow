@@ -13,7 +13,7 @@ router.get('/invite/list', (req, res) => {
                 res.send(code[200])
             } else {
                 res.send({
-                    status: code[100],
+                    status: code[100].status,
                     list: result
                 })
             }
